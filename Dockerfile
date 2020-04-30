@@ -1,8 +1,8 @@
-FROM alpine:3.9
+FROM alpine:3.11
 
 LABEL maintainer="Siman Chou <simanchou@gmail.com> https://github.com/simanchou"
 
-ENV NGINX_VERSION 1.16.0
+ENV NGINX_VERSION 1.15.12
 
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& CONFIG="\
@@ -55,7 +55,6 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	" \
 	&& addgroup -S nginx \
 	&& adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
-    && sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
 	&& apk add --no-cache --virtual .build-deps \
 		gcc \
 		libc-dev \
@@ -156,7 +155,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx.vh.default.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
+EXPOSE 80 369
 
 STOPSIGNAL SIGTERM
 
